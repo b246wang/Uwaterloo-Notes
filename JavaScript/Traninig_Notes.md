@@ -152,4 +152,22 @@ player1.showDetails = showPlayerDetails;
 player.showDetails = showPlayerDetails; // Little object-oriented concept... function pointer? XD
 ```
 
-### DOM: Document Object Model
+## Lesson Three: DOM, Document Object Model
+- Document: The page
+- Object: Any individual "thing". e.g. page title, HTML tags
+- Model: Set of terms (Imagine tree-structure of HTML): `head, body <= title, <h1>, <p>, <ul> <= <li>`
+- What I can do wit DOM?
+  - Get the title text
+  - Get the third paragraph
+  - Get the third link in the menu and set its CSS
+  - Get all `<li>` elements in the last unordered list
+  - Find the image with an id of "logo" and move it 40 pixels to the right
+  - ...
+
+- Every document is made of nodes. Each tag is a node, and all attributes and texts inside are nodes.
+```javascript
+//there are 12 types of nodes of DOM, but we are interested in 3 nodes now:
+Node.ELEMENT_NODE == 1
+Node.ATTRIBUTE_NODE == 2
+Node.TEXT_NODE == 3
+```

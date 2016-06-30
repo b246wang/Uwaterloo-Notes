@@ -155,19 +155,76 @@ player.showDetails = showPlayerDetails; // Little object-oriented concept... fun
 ## Lesson Three: DOM, Document Object Model
 - Document: The page
 - Object: Any individual "thing". e.g. page title, HTML tags
-- Model: Set of terms (Imagine tree-structure of HTML): `head, body <= title, <h1>, <p>, <ul> <= <li>`
-- What I can do wit DOM?
+- Model: Set of terms (Imagine tree-structure of HTML): HTML -> body -> ul -> li, we call them nodes.
+- You can access anywhere in the HTML structure with DOM!
+- E.g.
   - Get the title text
   - Get the third paragraph
   - Get the third link in the menu and set its CSS
   - Get all `<li>` elements in the last unordered list
-  - Find the image with an id of "logo" and move it 40 pixels to the right
-  - ...
+  - Find the image with an id of "logo" and move it 40 pixels to the right...
 
-- Every document is made of nodes. Each tag is a node, and all attributes and texts inside are nodes.
+- Each tag is a node, and all attributes and texts inside are nodes.
+- when you get an node, you can access its parents/children nodes.
 ```javascript
 //there are 12 types of nodes of DOM, but we are interested in 3 nodes now:
 Node.ELEMENT_NODE == 1
 Node.ATTRIBUTE_NODE == 2
 Node.TEXT_NODE == 3
+
+// Retrieving an element by ID
+var myElement = document.getElementById("myId");
+var myListItems = document.getElementsByTagName("li"); //an array of all <li> elements, empty if no li exists.
+console.log("This is an element of type: ", myElement.nodeType ); //see types of node above
+console.log("the Inner HTML is ", myElement.innerHTML ); //inner HTML is the text enclosed
+console.log("Child nodes: ", myElement.childNodes.length);
+
+//example:
+<ul id="abc">
+  <li> aaa </li>
+  <li> bbb </li>
+  <li> bbb </li>
+</ul>
+var myList = document.getElementById("abc");
+var listsInMyList = myList.getElementByTagName("li"); //get all li nodes in current ul nodes!
 ```
+
+#### Working with DOM:
+- Modify attribute
+```javascript
+<div id="mainContent">.........</div>
+var mainContent = document.getElementById("mainContent");
+mainContent.setAttribute("align", "right"); // add/change the align attribute of current node
+```
+
+- Create DOM content and add it to the document & Create Text Nodes
+```javascript
+<ul id="abc">........</ul>
+var myElement = document.getElementById("abc");
+var myNewElement = document.createElement("li");
+myElement.appendChild(myNewElement);
+
+var myText = document.createTextNode("New list item");
+myNewElement.appendChild(myText);//or do this: myNewElement.innerHTML = "New list item";
+// Don't want to append as the last child?
+var secondItem = myElement.getElementByTagName("li")[1];
+myElement.insertBefore(myNewElement, secondItem); //add the newElement as second child
+```
+
+## Lesson Four: Event, events happen all the time!
+
+- Handling Events
+  - method 1: `<button onclick="alert('Hello, world!');">Button</button>`
+  - method 2: `element.event = function() { something; };`
+    - e.g. `myElement.onclick = function() { something; };`
+    - why semicolon at the end? This is an entire statement! Not a function declaration.
+  - method 3: `document.addEventListener('click', myFunction, false);`
+    - Advantage: You can add eventListener multiple times to one element.
+    - Trouble: IE8 or previous doesn't support `addEvetListener` but `attachEvent` instead. Need to detect browser...
+      - You can use jQuery library functions to do cross-browser actions.
+
+- Rules of javascript:
+  - If you put file.js at the bottom of HTML, everything will likely work fine
+  - If you put file.js at the top of HTML, `myElement.onclick = function()` might not work since the page is not loaded and you cannot even get myElement here
+    - solution: put all the EventHandler functions in `window.onload = function() {put here};`, so all the functions will run after the page is loaded
+

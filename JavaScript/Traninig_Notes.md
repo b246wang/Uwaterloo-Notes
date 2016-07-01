@@ -223,8 +223,82 @@ myElement.insertBefore(myNewElement, secondItem); //add the newElement as second
     - Trouble: IE8 or previous doesn't support `addEvetListener` but `attachEvent` instead. Need to detect browser...
       - You can use jQuery library functions to do cross-browser actions.
 
-- Rules of javascript:
+#### onclick & onload:
   - If you put file.js at the bottom of HTML, everything will likely work fine
   - If you put file.js at the top of HTML, `myElement.onclick = function()` might not work since the page is not loaded and you cannot even get myElement here
     - solution: put all the EventHandler functions in `window.onload = function() {put here};`, so all the functions will run after the page is loaded
 
+#### onblur & onfocus:
+- onfocus: when you click into the place
+- onblur: when you leave the place
+```javascript
+// imagine you got this form element in HTML
+<input type="text" value="enter your email" name="email" id="email" tabindex="20" />
+
+var emailField = document.getElementById("email");
+emailField.onfocus = function() {
+  if ( emailField.value == "enter your email") {
+    emailField.value = "";
+  }
+};
+
+emailField.onblur = function() {
+  if ( emailField.value == "") {
+    emailField.value = "enter your email";
+  }
+};
+```
+
+#### Timers: time is in milliseconds (set and clear)
+- setTimeout:
+```javascript
+function alertMessage() {
+  alert("5 seconds earlier you opened this page");
+}
+
+setTimeout(alertMessage, 5000);
+```
+- setInterval:
+```javascript
+var myImage = document.getElementById("image");
+var imageFiles = ["_images/image1.jpg", "_images/image2.jpg", "_images/image3.jpg", "_images/image4.jpg"]
+var imageIndex = 0;
+function changeImage() {
+  myImage.setAttribute("src", imageFiles[imageIndex]);
+  imageIndex++;
+  if (imageIndex >= imageFiles.length) {
+    imageIndex = 0;
+  }
+}
+
+var intervalHandle = setInterval(changeImage, 2000); //change the image file every 2 seconds
+
+myImage.onclick = function() {
+  clearInterval(intervalHandle); //this can stop the image from changing
+};
+```
+
+- Debug javascript:
+  - Use browser console (source in Chrome, for example) to set breakpoints
+  - Use step in, step out and step over to debug as other IDEs
+
+#### Smarter Forms with JavaScript:
+- We can use events to listen the entire form
+- Small tip: 
+```javascript
+<form id="frmContact" name="frmContact" method="post" action="thanks.htm">`
+//You can use the name attribute of the form to access the form element
+document.forms.frmContact
+```
+
+- Textfields:
+  - main property: `myTextField.value`
+  - useful events: `onfocus`(click into), `onblur`(leave), `onchange`, `onkeypress`, `onkeyup`, `onkeydown`
+
+- Checkboxes & Radio Buttons:
+  - main property: `myCheckBox.checked`(boolean)
+  - useful events: `onclick`, `onchange`
+
+- Lists:
+  - main properties: `mySelect.type` (select-one or select-multiple), `mySelect.selectedIndex`
+  - useful events: `onchange`

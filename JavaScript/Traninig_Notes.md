@@ -293,12 +293,18 @@ document.forms.frmContact
 
 - Textfields:
   - main property: `myTextField.value`
-  - useful events: `onfocus`(click into), `onblur`(leave), `onchange`, `onkeypress`, `onkeyup`, `onkeydown`
+  - useful events: `onfocus`, `onblur`, `onchange`, `onkeypress`, `onkeyup`, `onkeydown`
 
 - Checkboxes & Radio Buttons:
   - main property: `myCheckBox.checked`(boolean)
   - useful events: `onclick`, `onchange`
 
 - Lists:
-  - main properties: `mySelect.type` (select-one or select-multiple), `mySelect.selectedIndex`
+  - main properties: `mySelect.type` (select-one or select-multiple)
+    - for select-one: `mySelect.selectedIndex`
+    - for select-multiple: `mySelect.options[x].selected`(boolean)
   - useful events: `onchange`
+
+- Form:
+  - useful event: `onsubmit` (`return false` to stop submitting, e.g. validation, or return true to sumbit the form)
+

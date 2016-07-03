@@ -286,7 +286,7 @@ myImage.onclick = function() {
 - We can use events to listen the entire form
 - Small tip: 
 ```javascript
-<form id="frmContact" name="frmContact" method="post" action="thanks.htm">`
+<form id="frmContact" name="frmContact" method="post" action="thanks.htm">
 //You can use the name attribute of the form to access the form element
 document.forms.frmContact
 ```
@@ -308,3 +308,86 @@ document.forms.frmContact
 - Form:
   - useful event: `onsubmit` (`return false` to stop submitting, e.g. validation, or return true to sumbit the form)
 
+## Lesson Five: UI enhancement & Best Practices
+#### CSS and JavaScript
+
+- Use JavaScript to modify the CSS of contents
+  - `myElement.style.width = "230px";`
+  - Remember to use camelCase for CSS with hyphens(-)
+```javascript
+#example {
+  width: 230px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #193742;
+}
+// equivalent Javascript:
+myElement.style.width = "230px";
+myElement.style.color = "#fff";
+myElement.style.fontWeight = "bold";
+myElement.style.backgroundColor = "#193742";
+```
+
+#### Class:
+- If you defined the CSS for a class in CSS file, you can use JavaScript to set the element to that class!
+- Set the class: `myElement.className = "someClassDefinedInCSS";`
+- Clear the class: `myElement.className = "";`
+
+#### Javascript Style Guidelines:
+- Use camelCase for variables and functions, e.g. DOM functions
+- Use uppercase for first letter of Objects, e.g. Date, Math
+- General practices: curly braces at the same line of keyword, define functions before use them...
+
+#### Minifying Javascript:
+- Often you can see javascript files with all words on a single line, and all variables are simplified to a,b,c...
+- That's because the codes are minified to reduce file size and increase downloading speed
+- Minifying tools: JSMin, YUI Compressor, Google Closure Compiler
+- JavaScript quality checker: "jslint.com"
+- Linking to Multiple JavaScript files:
+  - Each time you have a line `script src="myscript.js"></script>`, the browser will send a request to download this file
+  - So combining javascript files to have as few script files as possible
+
+#### Introduction to jQuery: prefer jQuery $
+- jQuery("whatToFind").someAction; OR alias form: $("whatToFind").someAction;
+```javascript
+document.getElementById("myDiv").className = "highlight";
+// with jQuery:
+jQuery("#myDiv").addClass("highlight");
+jQuery(".someClass") //select the class
+jQuery("p") //select all elements with <p> tag
+jQuery("li") //select all elements with <li> tag
+
+//find the last li
+jQuery("li:last").addClass("highlight");
+// find all paragraphs that contain "packages"
+$("p:contains('packages')").addClass("highlight");
+
+
+// EFFECTS
+
+// hide all paragraphs
+$("p").hide(4000);
+$("p").fadeOut(4000);
+
+
+// EVENTS
+
+// simple click
+$("#pageID").click(function() {
+  $("#pageID").text("You clicked me!");
+}); //set text instead of going to text node in JavaScript
+
+// add $(this) to refer to current element
+$("h2").click(function() {
+  $(this).text("You clicked me!");
+}); //just change the current clicked <h2>'s text
+
+// Page load events - instead of window.onload()
+// window.onload() cannot be called multiple times since it will replace the previous one
+$(document).ready(function () {
+  $("#pageID").text("The DOM is fully loaded.");
+});
+$(document).ready(function () {
+  $("h1").css("color", "red");
+}); // you can call .ready() multiple times!
+```

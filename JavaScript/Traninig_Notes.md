@@ -391,3 +391,122 @@ $(document).ready(function () {
   $("h1").css("color", "red");
 }); // you can call .ready() multiple times!
 ```
+
+#### Content Distribution Network(CDN)
+- A better & faster way to download jQuery: Several companies allow you to link to libraries from their servers
+  - e.g. google: `<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>`
+  - Why? 
+    - improved speed/redundancy
+    - improved bandwith
+    - improved parallel downloads(from other servers and your server at the same time)
+    - caching benefits: others also downloaded jQuery from google, so the don't need to download it again.
+
+## Lesson Six: HTML5 and JavaScript
+
+#### HTML5 new features
+- HTML5 supports video/audio and offline storage, so JavaScript has more methods to manage these things
+- JavaScript Additions: `var c = document.getElementsByClassName("myClass");`
+- Web Workers:
+```javascript
+var worker = new Worker("anotherjavascriptfile.js");
+
+// get ready to receive messages from the worker
+worker.onmessage = function(e) {
+  console.log("The worker called me!");
+};
+
+// send messages to the worker
+worker.postMessage("firstFunction");
+```
+- Feature Detection
+```javascript
+if ( document.getElementByClassName ) {
+  // it exists, we can use it
+  // ...
+} else {
+  // it doesn't exist on this browser
+}
+```
+
+#### Using Strict Mode: a higher standard of JavaScript codes
+- Add `"use strict";` at the first line of JavaScript file
+- In regular mode, many JavaScript errors/warnings are tolerated, but strict mode will report them
+
+#### JavaScript to avoid
+- avoid document.write: `document.write("Here is some <em>important</em> content");`, if it is called after the page was fully loaded, it will destroy the previous page and show it's content only
+- avoid browser sniffing: `if (navigator.appName == "Microsoft Internet Explorer')`
+  - it is very old code to detect the type of browser
+- avoid EVAL function: it will execute the code in variables...
+  - `var a = "alert('Hello');"`
+  - `eval( a );`
+- avoid Pseudo-protocols
+  - `<a href="javascript:someFunction()">this</a>`
+  - Normally, we use http://, but not javascript:
+  - it mixes HTML with JavaScript code
+
+#### Regular Expressions are built in the language: validation
+- `^` at the start of the string
+- `$` at the end of the string
+- `+` once or more
+- `*` zero or more
+- `?` zero or one
+- `|` either,or
+- `.` any character
+- `\w` alphanumeric or underscore(_)
+- `\b` word boundary
+- `[abc]`, `[0-9]` range of characters to choose
+
+#### AJAX: Asynchronous JavaScript and XML
+- Make more responsive site: retreive the data and update the page without reloading it
+  1. Create the request
+  2. Deal with any response
+```javascript
+var myRequest = new XMLHttpRequest();
+
+// be prepared to receive response
+myRequest.onreadystatechange = function() { 
+  if (myRequest.readyState === 4) { // why 4?
+    var p = document.createElement("p");
+    var t = document.createTextNode(myRequest.responseText);
+    p.appendChild(t);
+    document.getElementById("mainContent").appendChild(p); //append the content to the page
+  }
+};
+
+// Then configure and send
+myRequest.open("GET", "http://mysite.com/somedata.php", true);
+myRequest.send(null);
+```
+
+#### Objects and Prototypes
+```javascript
+// create Objects:
+var playerBrody = { name: "Brody", score: 9999, rank: 1 };
+playerBrody.gameType = "MMORPG";
+playerBrody.logScore = function() {
+  console.log(this.score);
+};
+playerBrody.logScore();
+playerJimmy = { name: "Bob", highscore: 50, level: "d" };
+
+
+// formalizing objects with constructors
+function Player(n) {
+  this.name = n;
+  this.score = s;
+  this.rank = r;
+}
+
+// prototype: attach the function to the object constructor
+Player.prototype.logInfo = function() {
+  console.log(this.name + ":" this.score);
+}
+
+// now you can crete objects and call same methods of the prototype!
+var Brody = new Player("Brody", 9999, 1);
+var Jimmy = new Player("Jimmy", 1, 100);
+Brody.logInfo();
+Jimmy.logInfo();
+```
+
+That's it. Go exploring.
